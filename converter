@@ -1,0 +1,47 @@
+// Confrimamos que el archiv está enlazado con el HTML
+console.log("Sync complete");
+
+//Detectmos si se ha pulsado el botón
+const button = document.getElementById("convert-Button");
+console.log(button);
+
+//Si se ha pulsado, comenzamos a convertir el formato
+button.addEventListener("click", goToConvert);
+
+//Generamos la variable donde guardar el formato
+const QUICK_Form = document.getElementById("QUICK-format");
+const APLIN_Form = document.getElementById("APLIN-format");
+
+
+function goToConvert()
+{
+    console.log("Start Proccess: ");
+
+    const f_name = document.getElementById("full-name");
+    const l_name = document.getElementById("last-name");
+    const phone = document.getElementById("phone-number");
+    const email = document.getElementById("email");
+    const address = document.getElementById("address");
+
+    if (f_name.value && l_name.value && phone.value && email && address.value)
+    {
+        console.log("Success");
+    }
+    else
+    {
+        alert("Missing elements!");
+    }
+
+    //Obtenemos los valores de los inputs, los guardamos en variables
+    const f_name_input = f_name.value.trim();
+    const l_name_input = l_name.value.trim();
+    const phone_input = phone.value.trim();
+    const email_input = email.value.trim();
+    const address_input = address.value.trim();
+
+
+    //Finalmente geneeramos el fromato de pegado
+    const text_finale_quick = `${f_name_input},${l_name_input},${phone_input},${email_input},${address_input}`;
+    
+    QUICK_Form.textContent = text_finale_quick;
+}
