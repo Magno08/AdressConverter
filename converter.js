@@ -117,7 +117,9 @@ function copy_text (full_format)
 //Funcion para dividir la direccion
 function parseAddress (address)
 {
+    //Pedimos que lo divida por cada coma que encuentre
     const parts = address.split(",").map(p => p.trim());
+    //Si el formato no esta completo, lo indica y habra que revisar
     if (parts.length <5)
     {
         alert("Address fromat invalid: must be Address, Colonia, City, State, Zip");
