@@ -1,47 +1,134 @@
-// Confrimamos que el archiv está enlazado con el HTML
+//Verfificamos que el js este enlazado al html
 console.log("Sync complete");
 
-//Detectmos si se ha pulsado el botón
+//Generacion de variables
+//generamos constante donde leera si se ha hecho click en el boton
 const button = document.getElementById("convert-Button");
-console.log(button);
 
-//Si se ha pulsado, comenzamos a convertir el formato
+//Generamos las variables para leer el click de los botones de copiado
+const copy_Aplin_Button = document.getElementById("copy-aplin");
+const copy_Quick_Button = document.getElementById("copy-quick");
+
+//Obtenemos el valor del resultado del formato
+const quick_Form = document.getElementById("QUICK-format");
+const aplin_Form = document.getElementById("APLIN-format");
+
+//Generamos las varaibles para guardar los inputs
+//obtenemos los valores de todos los datos
+const r_name = document.getElementById("Restaurant-Name");
+const f_name = document.getElementById("full-name");
+const l_name = document.getElementById("last-name");
+const phone = document.getElementById("phone-number");
+const email = document.getElementById("email");
+const address = document.getElementById("address");
+const references = document.getElementById("references");
+
+//si el boton ha hecho click, comenzamos a realizar la conversion
 button.addEventListener("click", goToConvert);
 
-//Generamos la variable donde guardar el formato
-const QUICK_Form = document.getElementById("QUICK-format");
-const APLIN_Form = document.getElementById("APLIN-format");
-
-
-function goToConvert()
+//Codigo para hacer el copiado de los elemetos al portapapeles
+//Detectamos que el boton de copiar haya hecho click
+copy_Aplin_Button.addEventListener("click",function() 
 {
-    console.log("Start Proccess: ");
+    copy_text(aplin_Form.textContent);
+});
 
-    const f_name = document.getElementById("full-name");
-    const l_name = document.getElementById("last-name");
-    const phone = document.getElementById("phone-number");
-    const email = document.getElementById("email");
-    const address = document.getElementById("address");
+copy_Quick_Button.addEventListener("click", function()
+{
+    copy_text(quick_Form.textContent);
+})
 
-    if (f_name.value && l_name.value && phone.value && email && address.value)
+function goToConvert() 
+{
+    console.log("Start Process:");
+
+    //verificamos que todos los elementos obligatroios tengan al menos un caracter
+    if (
+        r_name.value &&
+        f_name.value &&
+        l_name.value &&
+        phone.value &&
+        email.value &&
+        address.value
+    ) 
     {
-        console.log("Success");
-    }
-    else
+        console.log("Data collected correctly");
+
+        const r_name_input = r_name.value.trim();
+        const f_name_input = f_name.value.trim();
+        const l_name_input = l_name.value.trim();
+        const phone_input = phone.value.trim();
+        const email_input = email.value.trim();
+        const references_input = references.value.trim();
+
+        //Quitamos las comas en la direccion para evitar malos pegados en google sheets
+        const address_input = address.value
+        .trim()
+        .replace(/,/g, " ")
+        .replace(/\s+/g, "  ");
+
+        //Dividimos la direccion para encajarla con el formato APLIN
+        const address_Divided = parseAddress(address.value);
+        //Si falta algun dato, dejamos que el programa siga corriendo
+        if(!address_Divided) return;
+
+        //Generamos el formato para QUICK
+        const text_finale_quick = 
+        `${r_name_input},${f_name_input} ${l_name_input},${phone_input},${email_input},${address_input},${references_input}`;
+
+        //Generamos el fromato para APLIN
+        const text_finale_aplin = 
+        `${f_name_input},${l_name_input},${email_input},${phone_input}, , ,${f_name_input},${l_name_input},${phone_input},${r_name_input},${address_Divided.address_1},${address_Divided.address_2},${references_input},${address_Divided.city},${address_Divided.state},${address_Divided.cp}`;
+
+        //Sustituímos la salida del Output con la dirección en el formato que se desee
+        quick_Form.textContent = text_finale_quick;
+        aplin_Form.textContent = text_finale_aplin;
+
+    } 
+    else 
     {
-        alert("Missing elements!");
+        //Si por alguna razón falta algún dato obligatorio, se indica y termina la ejecución
+        console.log("Failed, some data is missing");
+        alert("Some data is missing or was entered incorrectly!");
     }
-
-    //Obtenemos los valores de los inputs, los guardamos en variables
-    const f_name_input = f_name.value.trim();
-    const l_name_input = l_name.value.trim();
-    const phone_input = phone.value.trim();
-    const email_input = email.value.trim();
-    const address_input = address.value.trim();
-
-
-    //Finalmente geneeramos el fromato de pegado
-    const text_finale_quick = `${f_name_input},${l_name_input},${phone_input},${email_input},${address_input}`;
-    
-    QUICK_Form.textContent = text_finale_quick;
 }
+
+//Función para copiar el contenido al portapapeles
+function copy_text (full_format)
+{
+    //No debe copiar el contenido si aún no se genera el formato
+    if (!full_format || full_format ==="Nothing Here... yet")
+    {
+        console.log("No text aviable to copy");
+        return;
+    }
+    navigator.clipboard.writeText(full_format)
+        .then(() => 
+        {
+            console.log("Text copied, successfully");
+        })
+        .catch(err =>
+        {
+            console.error("Copy failed:", err);
+        }
+        );
+}
+
+//Funcion para dividir la direccion
+function parseAddress (address)
+{
+    const parts = address.split(",").map(p => p.trim());
+    if (parts.length <5)
+    {
+        alert("Address fromat invalid: must be Address, Colonia, City, State, Zip");
+        return null;
+    }
+    return {
+        address_1: parts[0] || "",
+        address_2: parts[1] || "",
+        city: parts[2] || "",
+        state: parts[3] || "",
+        cp: parts[4] || ""
+    };
+}
+
