@@ -36,6 +36,11 @@ body
     width: 100%;
 }
 
+.how-to-write-address
+{
+    text-align: center;
+}
+
 /* Hacer que el recuadro de escritura sea más alto y visible */
 input[type="text"], input[type="tel"], input[type="email"] {
     padding: 12px;
@@ -49,9 +54,10 @@ input[type="text"], input[type="tel"], input[type="email"] {
     display: flex;
     justify-content: center;
     margin-top: 10px;
+    gap: 20px;
 }
 
-#convert-Button {
+.convert-Button {
     padding: 15px 40px;
     cursor: pointer;
     background-color: #444;
@@ -59,4 +65,10 @@ input[type="text"], input[type="tel"], input[type="email"] {
     border: none;
     border-radius: 5px;
     font-weight: bold;
+}
+
+/*Aplicamos el margen hacia la izquierda para el progreso de la conversión*/
+.progress-section
+{
+    text-align: end;
 }

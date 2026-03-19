@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Parrot Adrress Converter</title>
+    <title>Generador de Pedidos de Parrot</title>
     <script src="converter.js" defer></script>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,18 +13,19 @@
   <body>
     <main class="converter-container">
       <header>
-        <h1>Address Converter</h1>
-        <h2>By: Parrot. 🦜</h2>
+        <h1>Generador de formato de pedidios 🦜</h1>
         <p>
-          This tool helps you to convert any format for APLIN/Quick 3PL Hardware
-          Request from Onboarding Team!
+          Esta herramienta te permite generar automáticamente los formatos pedidos para QUICK y APLIN.
+        </p>
+        <p>
+          ¿Cómo pegar el formato en Google Sheets?
         </p>
       </header>
       <div>
         <form id="converter-form">
           <div class="form-row">
             <div class="input-group">
-              <label for="Restaurant-Name">Restaurant Name</label>
+              <label for="Restaurant-Name">Nombre del Restautante</label>
               <input
                 type="text"
                 id="Restaurant-Name"
@@ -33,7 +34,7 @@
               />
             </div>
             <div class="input-group">
-              <label for="full-name">First Name</label>
+              <label for="full-name">Nombre</label>
               <input
                 type="text"
                 id="full-name"
@@ -42,7 +43,7 @@
               />
             </div>
             <div class="input-group">
-              <label for="last-name">Last Name</label>
+              <label for="last-name">Apellido</label>
               <input
                 type="text"
                 id="last-name"
@@ -63,7 +64,7 @@
               />
             </div>
             <div class="input-group">
-              <label for="phone-number">Phone</label>
+              <label for="phone-number">Número de teléfono</label>
               <input
                 type="tel"
                 id="phone-number"
@@ -75,19 +76,20 @@
 
           <div class="form-row full-width">
             <div class="input-group">
-              <label for="address">Address</label>
+              <label for="address">Dirección</label>
               <input
                 type="text"
                 id="address"
                 placeholder="Calle, Colonia, Ciudad, Estado, CP"
                 required
               />
+              <p class="how-to-write-address">Debe ser del formato: Calle, Colonia, Ciudad, Estado, CP</p>
             </div>
           </div>
 
           <div class="form-row full-width">
             <div class="input-group">
-              <label for="references">References</label>
+              <label for="references">Referencias</label>
               <input
                 type="text"
                 id="references"
@@ -97,7 +99,8 @@
           </div>
 
           <div class="button-container">
-            <button id="convert-Button" type="button">Submit</button>
+            <button class="convert-Button" id="generate-Button" type="button">Generar</button>
+            <button class="convert-Button" id="delete-Button" type="reset">Borrar</button>
           </div>
         </form>
         <section class="results-section">
@@ -115,6 +118,10 @@
             >
             <button type="button" id="copy-quick">📋</button>
           </div>
+        </section>
+        <section class="progress-section">
+          <p>Consulta el progreso de la conversión aquí:</p>
+          <output id="convert-status">Aún no se ha generado la conversión</output>
         </section>
       </div>
     </main>

@@ -3,7 +3,10 @@ console.log("Sync complete");
 
 //Generacion de variables
 //generamos constante donde leera si se ha hecho click en el boton
-const button = document.getElementById("convert-Button");
+const button = document.getElementById("generate-Button");
+
+//Generamos constante para leer si se ha hecho click el botón de borrado
+const delete_button = document.getElementById("delete-Button");
 
 //Generamos las variables para leer el click de los botones de copiado
 const copy_Aplin_Button = document.getElementById("copy-aplin");
@@ -23,8 +26,18 @@ const email = document.getElementById("email");
 const address = document.getElementById("address");
 const references = document.getElementById("references");
 
+//Variable para mostrar el estado de la converión, hacicendo que sea visible desde la página
+const progress_status = document.getElementById("convert-status");
+
 //si el boton ha hecho click, comenzamos a realizar la conversion
 button.addEventListener("click", goToConvert);
+
+//Obtenemos la fecha actual, esto para completar el formato QUICK.
+const today = new Date();
+console.log(today);
+const today_options = {day: '2-digit', month: '2-digit', year: 'numeric'};
+const today_is = new Intl.DateTimeFormat('en-GB', today_options).format(today);
+console.log(today_is);
 
 //Codigo para hacer el copiado de los elemetos al portapapeles
 //Detectamos que el boton de copiar haya hecho click
@@ -36,7 +49,11 @@ copy_Aplin_Button.addEventListener("click",function()
 copy_Quick_Button.addEventListener("click", function()
 {
     copy_text(quick_Form.textContent);
-})
+});
+
+//Limpiamos los inputs, y mostramos mensaje
+
+delete_button.addEventListener("click", show_delete);
 
 function goToConvert() 
 {
@@ -74,7 +91,7 @@ function goToConvert()
 
         //Generamos el formato para QUICK
         const text_finale_quick = 
-        `${r_name_input},${f_name_input} ${l_name_input},${phone_input},${email_input},${address_input},${references_input}`;
+        `${today_is}, , ,${r_name_input},${f_name_input} ${l_name_input},${phone_input},${email_input},${address_input},${references_input}`;
 
         //Generamos el fromato para APLIN
         const text_finale_aplin = 
@@ -84,12 +101,14 @@ function goToConvert()
         quick_Form.textContent = text_finale_quick;
         aplin_Form.textContent = text_finale_aplin;
 
+        progress_status.textContent = "Formatos generados correctamente";
+
     } 
     else 
     {
         //Si por alguna razón falta algún dato obligatorio, se indica y termina la ejecución
         console.log("Failed, some data is missing");
-        alert("Some data is missing or was entered incorrectly!");
+        progress_status.textContent = "Error: falta algún dato obligatorio por completar";
     }
 }
 
@@ -100,12 +119,14 @@ function copy_text (full_format)
     if (!full_format || full_format ==="Nothing Here... yet")
     {
         console.log("No text aviable to copy");
+        progress_status.textContent = "Aún no hay nada para copiar";
         return;
     }
     navigator.clipboard.writeText(full_format)
         .then(() => 
         {
-            console.log("Text copied, successfully");
+            console.log("Text copied successfully");
+            progress_status.textContent = "Texto copiado correctamente";
         })
         .catch(err =>
         {
@@ -122,7 +143,8 @@ function parseAddress (address)
     //Si el formato no esta completo, lo indica y habra que revisar
     if (parts.length <5)
     {
-        alert("Address fromat invalid: must be Address, Colonia, City, State, Zip");
+        console.log("Address fromat invalid: must be Address, Colonia, City, State, Zip");
+        progress_status.textContent = "Error: El formato de la direccción debe der: Calle, Colonia, Ciudad, Estado, CP"
         return null;
     }
     return {
@@ -134,3 +156,7 @@ function parseAddress (address)
     };
 }
 
+function show_delete()
+{
+    progress_status.textContent = "Texto borrado corretamente";
+}
