@@ -52,7 +52,6 @@ copy_Quick_Button.addEventListener("click", function()
 });
 
 //Limpiamos los inputs, y mostramos mensaje
-
 delete_button.addEventListener("click", show_delete);
 
 function goToConvert() 
@@ -76,7 +75,11 @@ function goToConvert()
         const l_name_input = l_name.value.trim();
         const phone_input = phone.value.trim();
         const email_input = email.value.trim();
-        const references_input = references.value.trim();
+
+        //Eliminamos las comas en las referecnias para evitar malos pegados
+        const references_input = references.value
+        .trim()
+        .replace(/,/g, "");
 
         //Quitamos las comas en la direccion para evitar malos pegados en google sheets
         const address_input = address.value
@@ -160,3 +163,49 @@ function show_delete()
 {
     progress_status.textContent = "Texto borrado corretamente";
 }
+
+//Hacemos una función que pondrá los inputs que no están llenos en color rojo
+function input_no_wrote() {
+    // Seleccionamos los inputs que son obligatorios
+    const required_inputs = document.querySelectorAll('input[required]');
+
+    required_inputs.forEach(input => {
+        // Generamos un blur para identificar cuando el usuario sale del input
+        input.addEventListener('blur', () => {
+            // Si el valor es vacío o solo espacios, agregamos el error
+            if (input.value.trim() === "") {
+                input.classList.add('input-error');
+            } else {
+                input.classList.remove('input-error');
+            }
+        });
+
+        // También se elimina el fondo cuando comience a escribir algo válido
+        input.addEventListener('input', () => {
+            if (input.value.trim() !== "") {
+                input.classList.remove('input-error');
+            }
+        });
+    });
+}
+
+//Usamos una función para llenar el listado con todos los SKUs
+function select_Hardware()
+{
+    const select = document.getElementById("sku-select");
+
+    //Con un for, agregamos todos los productos a la venta
+    select.innerHTML = '';
+    hardware_skus.forEach(product =>
+    {
+        const option = document.createElement('option');
+        option.value = product.sku;
+        option.textContent = product.name;
+        select.appendChild(option);
+    }
+    );
+}
+
+//Lista de funciones a ejecutar cuando se carga el script
+input_no_wrote();
+select_Hardware();
