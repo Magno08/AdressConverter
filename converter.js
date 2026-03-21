@@ -8,6 +8,10 @@ const button = document.getElementById("generate-Button");
 //Generamos constante para leer si se ha hecho click el botón de borrado
 const delete_button = document.getElementById("delete-Button");
 
+//Generamos la variable para leer el clikc del boton de agregar Hardware
+
+const add_sku = document.getElementById("add-sku");
+
 //Generamos las variables para leer el click de los botones de copiado
 const copy_Aplin_Button = document.getElementById("copy-aplin");
 const copy_Quick_Button = document.getElementById("copy-quick");
@@ -15,6 +19,10 @@ const copy_Quick_Button = document.getElementById("copy-quick");
 //Obtenemos el valor del resultado del formato
 const quick_Form = document.getElementById("QUICK-format");
 const aplin_Form = document.getElementById("APLIN-format");
+
+//Leemos lo que contiene la salida del hardware seleccionado;
+
+const skus_added = document.getElementById("skus-selected");
 
 //Generamos las varaibles para guardar los inputs
 //obtenemos los valores de todos los datos
@@ -28,6 +36,22 @@ const references = document.getElementById("references");
 
 //Variable para mostrar el estado de la converión, hacicendo que sea visible desde la página
 const progress_status = document.getElementById("convert-status");
+
+//Agregamos un SKU a la lista si se ha hecho click
+add_sku.addEventListener("click", function(){
+    let hw_array = new Array();
+    let amount_array = new Array();
+    console.log("Se ha hecho click: reeemplaza esto por la funcion");
+    const hw = document.getElementById("sku-select");
+    const amount = document.getElementById("sku-amount");
+    hw_array.unshift(hw.value);
+    amount_array.unshift(amount.value);
+    for (let i = 0; i< hw_array.length; i++)
+    {
+        skus_added.textContent = `${hw_array[i]} - ${amount_array[i]}`;
+    }
+    console.log("Si ves esto, entonces el boton debio agregar el valor del select al outuput");
+});
 
 //si el boton ha hecho click, comenzamos a realizar la conversion
 button.addEventListener("click", goToConvert);
@@ -142,9 +166,9 @@ function copy_text (full_format)
 function parseAddress (address)
 {
     //Pedimos que lo divida por cada coma que encuentre
-    const parts = address.split(",").map(p => p.trim());
+    const parts = address.split(",").map(p => p.trim().filter(p=> p.length > 0));
     //Si el formato no esta completo, lo indica y habra que revisar
-    if (parts.length <5)
+    if (parts.length !== 5)
     {
         console.log("Address fromat invalid: must be Address, Colonia, City, State, Zip");
         progress_status.textContent = "Error: El formato de la direccción debe der: Calle, Colonia, Ciudad, Estado, CP"
