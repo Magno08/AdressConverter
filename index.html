@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Generador de Pedidos de Parrot</title>
-    <script src="converter.js" defer></script>
     <script src="hardwareList.js" defer></script>
+    <script src="converter.js" defer></script>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -97,13 +97,26 @@
                 placeholder="Entre calles, color de fachada..."
               />
             </div>
+          </div>
 
-            <div>
+          <div class="form-row-outup">
+            <div class="add-sku-row">
               <div class="sku-input">
                 <label for="sku-select">Hardware a Enviar</label>
-                <select name="sku" id="sku-select" multiple>
+                <select class="select-hardware" name="sku" id="sku-select">
                 </select>
               </div>
+              <div class="sku-input">
+                <label for="sku-amount">Cantidad</label>
+                <input type="number" id="sku-amount" name="amount-sku">
+              </div>
+              <div class="add-sku-button-container">
+                <button class="add-sku-button" id="add-sku" type="button">Agregar</button>
+              </div>
+            </div>
+
+            <div class="skus-selected-output-container">
+              <output class="skus-selected-output" id="skus-selected">Aun no has seleccionado hardware</output>
             </div>
           </div>
 

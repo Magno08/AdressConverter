@@ -61,12 +61,62 @@ input
     flex-direction: column;
 }
 
+.form-row-outup
+{
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.skus-selected-output-container
+{
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.skus-selected-output
+{
+    text-align: center;
+}
+
+/*Cambiar el formato del select*/
+.select-hardware
+{
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+}
+
 /* Hacer que el recuadro de escritura sea más alto y visible */
-input[type="text"], input[type="tel"], input[type="email"] {
+input[type="text"], input[type="tel"], input[type="email"], input[type="number"] {
     padding: 12px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 4px;
+}
+
+/*Adaptamos el output del Hardware seleccionado para que sea un
+cuadro grande donde se pueda ver todo el HW en pedidos grandres*/
+
+
+/*Modificamos el boton de agregar*/
+.add-sku-button-container
+{
+    justify-content: start;
+    margin-top: 15px;
+    gap: 8px;
+}
+
+.add-sku-button
+{
+    padding: 10px 10px;
+    cursor: pointer;
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
 }
 
 /* Centrado del botón */
@@ -86,6 +136,8 @@ input[type="text"], input[type="tel"], input[type="email"] {
     border-radius: 5px;
     font-weight: bold;
 }
+
+/*Formato diferente del boton de agregar para evitar errore*/
 
 /*Aplicamos el margen hacia la izquierda para el progreso de la conversión*/
 .progress-section
