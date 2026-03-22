@@ -11,6 +11,7 @@ const delete_button = document.getElementById("delete-Button");
 //Generamos la variable para leer el clikc del boton de agregar Hardware
 
 const add_sku = document.getElementById("add-sku");
+const delete_sku = document.getElementById("delete-sku")
 
 //Generamos las variables para leer el click de los botones de copiado
 const copy_Aplin_Button = document.getElementById("copy-aplin");
@@ -37,21 +38,13 @@ const references = document.getElementById("references");
 //Variable para mostrar el estado de la converión, hacicendo que sea visible desde la página
 const progress_status = document.getElementById("convert-status");
 
+//Variable para guardar los SKUS
+const skus = [];
 //Agregamos un SKU a la lista si se ha hecho click
-add_sku.addEventListener("click", function(){
-    let hw_array = new Array();
-    let amount_array = new Array();
-    console.log("Se ha hecho click: reeemplaza esto por la funcion");
-    const hw = document.getElementById("sku-select");
-    const amount = document.getElementById("sku-amount");
-    hw_array.unshift(hw.value);
-    amount_array.unshift(amount.value);
-    for (let i = 0; i< hw_array.length; i++)
-    {
-        skus_added.textContent = `${hw_array[i]} - ${amount_array[i]}`;
-    }
-    console.log("Si ves esto, entonces el boton debio agregar el valor del select al outuput");
-});
+add_sku.addEventListener("click", add_hardware);
+
+//Si queremos solamente eliminar los skus, el boton de eliminar skus nos ayuda con eso
+delete_sku.addEventListener("click", delete_only_skus);
 
 //si el boton ha hecho click, comenzamos a realizar la conversion
 button.addEventListener("click", goToConvert);
@@ -116,19 +109,43 @@ function goToConvert()
         //Si falta algun dato, dejamos que el programa siga corriendo
         if(!address_Divided) return;
 
+        //Tomamos el SKU generado
+        //Primero validamos que haya al menos un elemento
+        if (skus.length === 0)
+        {
+            progress_status.textContent = "Debes agregar al menos 1 pieza de Hardware a Enviar"
+            return;
+        }
+        //Si es asi, comenzamos a agregar el sku al formato
+        //De momento, solamente agregamos un solo sku
+        const first_Sku = skus[0];
+        //Ahora transfromamos al formato QUICK el pedido del Hardware
+        const sku_Quick_Format = 
+        `${first_Sku.amount}-${first_Sku.sku}`;
+
         //Generamos el formato para QUICK
         const text_finale_quick = 
-        `${today_is}, , ,${r_name_input},${f_name_input} ${l_name_input},${phone_input},${email_input},${address_input},${references_input}`;
-
+        `${today_is}, , ,${r_name_input},${f_name_input} ${l_name_input},${phone_input},${email_input},${address_input},${references_input}, , ,${sku_Quick_Format}`;
+        
+        //Transformamos el formato para APLIN
+        input_name_sku = first_Sku.sku;
+        input_amount_sku = first_Sku.amount;
         //Generamos el fromato para APLIN
         const text_finale_aplin = 
-        `${f_name_input},${l_name_input},${email_input},${phone_input}, , ,${f_name_input},${l_name_input},${phone_input},${r_name_input},${address_Divided.address_1},${address_Divided.address_2},${references_input},${address_Divided.city},${address_Divided.state},${address_Divided.cp}`;
+        `${f_name_input},${l_name_input},${email_input},${phone_input},${input_name_sku},${input_amount_sku},${f_name_input},${l_name_input},${phone_input},${r_name_input},${address_Divided.address_1},${address_Divided.address_2},${references_input},${address_Divided.city},${address_Divided.state},${address_Divided.cp}`;
 
         //Sustituímos la salida del Output con la dirección en el formato que se desee
         quick_Form.textContent = text_finale_quick;
         aplin_Form.textContent = text_finale_aplin;
 
         progress_status.textContent = "Formatos generados correctamente";
+
+        //----------------------------------------------------------------------------------------
+        //Esta seccion debe eliminarse cuando se agregue el colocar mas de 1 sku
+        skus.length = 0;
+        skus_added.textContent = "SKU agregado al formato";
+        //----------------------------------------------------------------------------------------
+
 
     } 
     else 
@@ -143,7 +160,7 @@ function goToConvert()
 function copy_text (full_format)
 {
     //No debe copiar el contenido si aún no se genera el formato
-    if (!full_format || full_format ==="Nothing Here... yet")
+    if (!full_format || full_format ==="Aquí verás el formato completo antes de copiarlo")
     {
         console.log("No text aviable to copy");
         progress_status.textContent = "Aún no hay nada para copiar";
@@ -166,7 +183,7 @@ function copy_text (full_format)
 function parseAddress (address)
 {
     //Pedimos que lo divida por cada coma que encuentre
-    const parts = address.split(",").map(p => p.trim().filter(p=> p.length > 0));
+    const parts = address.split(",").map(p => p.trim()).filter(p => p.length > 0);
     //Si el formato no esta completo, lo indica y habra que revisar
     if (parts.length !== 5)
     {
@@ -185,7 +202,19 @@ function parseAddress (address)
 
 function show_delete()
 {
+    //Eliminamos los elementos dentro del array de los skus
+    skus.length = 0;
+    skus_added.textContent = "Aun no has seleccionado hardware";
+    console.log("Output Hardware clean");
+
+    //Limpiamos el los formatos de copiado
+    aplin_Form.textContent = "Aquí verás el formato completo antes de copiarlo";
+    quick_Form.textContent = "Aquí verás el formato completo antes de copiarlo";
+    console.log("Forms clean");
+
+    //Mensaje que muesta que todo se ha limpiado correctamente
     progress_status.textContent = "Texto borrado corretamente";
+    console.log("Clean process completed");
 }
 
 //Hacemos una función que pondrá los inputs que no están llenos en color rojo
@@ -228,6 +257,48 @@ function select_Hardware()
         select.appendChild(option);
     }
     );
+}
+
+function add_hardware()
+{
+
+    //Leemos el Harware que se va a agregar al pedido
+    const hw = document.getElementById("sku-select");
+    const amount = document.getElementById("sku-amount");
+    //Como la cantidad es obligatoria, agregamos una condicional para verificar que haya alguna
+    const amount_Value = Number(amount.value);
+    if (!amount_Value || amount_Value <= 0)
+    {
+        //Si no hay acantidad, indica que debe haber alguna para continuar.
+        console.log("There's no amount, please select an amount");
+        progress_status.textContent = "Error: Por favor, selecciona una cantidad a agregar de Hardware";
+        return null;
+
+    } 
+    else 
+    {
+        //Si es asi, agregamos el sku
+        skus.push({
+            sku: hw.value,
+            amount: amount_Value
+        });
+
+        skus_added.textContent = "";
+
+        skus.forEach(item => {
+            skus_added.innerHTML += `${item.sku} - ${item.amount}<br>`;
+        });
+        console.log("Si ves esto, entonces el boton debio agregar el valor del select al outuput");
+        amount.value = "";
+        //Como primera version, hacemos que el usuario genere por cada SKU
+    }
+}
+
+function delete_only_skus()
+{
+    skus.length = 0;
+    skus_added.textContent = "Aun no has seleccionado hardware";
+    console.log("Array clean");
 }
 
 //Lista de funciones a ejecutar cuando se carga el script

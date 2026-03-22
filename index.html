@@ -108,10 +108,11 @@
               </div>
               <div class="sku-input">
                 <label for="sku-amount">Cantidad</label>
-                <input type="number" id="sku-amount" name="amount-sku">
+                <input type="number" id="sku-amount" name="amount-sku" placeholder="0" required>
               </div>
               <div class="add-sku-button-container">
                 <button class="add-sku-button" id="add-sku" type="button">Agregar</button>
+                <button class="add-sku-button" id="delete-sku" type="button">Eliminar SKU</button>
               </div>
             </div>
 
@@ -127,16 +128,16 @@
         </form>
         <section class="results-section">
           <div class="output-box">
-            <p>APLIN format:</p>
+            <p>APLIN:</p>
             <output id="APLIN-format" name="Result APLIN"
-              >Nothing Here... yet</output
+              >Aquí verás el formato completo antes de copiarlo</output
             >
             <button type="button" id="copy-aplin">📋</button>
           </div>
           <div class="output-box">
-            <p>QUICK format:</p>
+            <p>QUICK:</p>
             <output id="QUICK-format" name="Result Quick"
-              >Nothing Here... yet</output
+              >Aquí verás el formato completo antes de copiarlo</output
             >
             <button type="button" id="copy-quick">📋</button>
           </div>
@@ -144,6 +145,9 @@
         <section class="progress-section">
           <p>Consulta el progreso de la conversión aquí:</p>
           <output id="convert-status">Aún no se ha generado la conversión</output>
+        </section>
+        <section>
+          <p>Parrot V0.2</p>
         </section>
       </div>
     </main>
