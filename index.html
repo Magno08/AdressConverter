@@ -14,7 +14,15 @@
   <body>
     <main class="converter-container">
       <header>
-        <h1>Generador de formato de pedidios 🦜</h1>
+        <div class="header-section">
+          <img 
+            src="/Media/parrot-logo-registrado-back.png" 
+            alt="Parrot Software Logo" 
+            class="Parrot-Logo">
+          <h1
+            class="header-Text"
+            >Generador de formato de pedidos</h1>
+        </div>
         <p>
           Esta herramienta te permite generar automáticamente los formatos pedidos para QUICK y APLIN.
         </p>
@@ -142,19 +150,19 @@
           </div>
         </form>
         <section class="results-section">
-          <div class="output-box">
+          <div>
             <p>APLIN:</p>
-            <output id="APLIN-format" name="Result APLIN"
+            <output class="format-box" id="APLIN-format" name="Result APLIN"
               >Aquí verás el formato completo antes de copiarlo</output
             >
-            <button type="button" id="copy-aplin">📋</button>
+            <button class="coppy-button" type="button" id="copy-aplin">Copiar</button>
           </div>
-          <div class="output-box">
+          <div>
             <p>QUICK:</p>
-            <output id="QUICK-format" name="Result Quick"
+            <output class="format-box" id="QUICK-format" name="Result Quick"
               >Aquí verás el formato completo antes de copiarlo</output
             >
-            <button type="button" id="copy-quick">📋</button>
+            <button class="coppy-button" type="button" id="copy-quick">Copiar</button>
           </div>
         </section>
         <section class="progress-section">

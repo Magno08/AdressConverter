@@ -8,10 +8,10 @@ const button = document.getElementById("generate-Button");
 //Generamos constante para leer si se ha hecho click el botón de borrado
 const delete_button = document.getElementById("delete-Button");
 
-//Generamos la variable para leer el clikc del boton de agregar Hardware
+//Generamos la variable para leer el clikc del boton de agregar y eliminar Hardware
 
 const add_sku = document.getElementById("add-sku");
-const delete_sku = document.getElementById("delete-sku")
+const delete_sku = document.getElementById("delete-sku");
 
 //Generamos las variables para leer el click de los botones de copiado
 const copy_Aplin_Button = document.getElementById("copy-aplin");
@@ -187,7 +187,7 @@ function parseAddress (address)
     if (parts.length !== 5)
     {
         console.log("Address fromat invalid: must be Address, Colonia, City, State, Zip");
-        progress_status.textContent = "Error: El formato de la direccción debe der: Calle, Colonia, Ciudad, Estado, CP"
+        progress_status.textContent = "Error: El formato de la direccción debe der: Calle, Colonia, Ciudad, Estado, CP";
         return null;
     }
     return {
