@@ -146,7 +146,6 @@ function goToConvert()
         skus_added.textContent = "SKU agregado al formato";
         //----------------------------------------------------------------------------------------
 
-
     } 
     else 
     {
@@ -265,11 +264,12 @@ function add_hardware()
     //Leemos el Harware que se va a agregar al pedido
     const hw = document.getElementById("sku-select");
     const amount = document.getElementById("sku-amount");
+
     //Como la cantidad es obligatoria, agregamos una condicional para verificar que haya alguna
     const amount_Value = Number(amount.value);
     if (!amount_Value || amount_Value <= 0)
     {
-        //Si no hay acantidad, indica que debe haber alguna para continuar.
+        //Si no hay cantidad, indica que debe haber alguna para continuar.
         console.log("There's no amount, please select an amount");
         progress_status.textContent = "Error: Por favor, selecciona una cantidad a agregar de Hardware";
         return null;

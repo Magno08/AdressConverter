@@ -103,27 +103,42 @@
             <div class="add-sku-row">
               <div class="sku-input">
                 <label for="sku-select">Hardware a Enviar</label>
-                <select class="select-hardware" name="sku" id="sku-select">
+                <select
+                  class="select-hardware" 
+                  name="sku" 
+                  id="sku-select">
                 </select>
               </div>
               <div class="sku-input">
                 <label for="sku-amount">Cantidad</label>
-                <input type="number" id="sku-amount" name="amount-sku" placeholder="0" required>
+                <input 
+                  type="number" 
+                  id="sku-amount" 
+                  name="amount-sku" 
+                  placeholder="0" 
+                  required>
               </div>
               <div class="add-sku-button-container">
-                <button class="add-sku-button" id="add-sku" type="button">Agregar</button>
-                <button class="add-sku-button" id="delete-sku" type="button">Eliminar SKU</button>
+                <button class="add-sku-button" id="add-sku" type="button"
+                >Agregar</button>
+                <button class="add-sku-button" id="delete-sku" type="button"
+                >Eliminar SKU</button>
               </div>
             </div>
 
             <div class="skus-selected-output-container">
-              <output class="skus-selected-output" id="skus-selected">Aun no has seleccionado hardware</output>
+              <output 
+                class="skus-selected-output" 
+                id="skus-selected"
+                >Aun no has seleccionado hardware</output>
             </div>
           </div>
 
           <div class="button-container">
-            <button class="convert-Button" id="generate-Button" type="button">Generar</button>
-            <button class="convert-Button" id="delete-Button" type="reset">Borrar</button>
+            <button class="convert-Button" id="generate-Button" type="button"
+              >Generar</button>
+            <button class="convert-Button" id="delete-Button" type="reset"
+              >Borrar</button>
           </div>
         </form>
         <section class="results-section">
