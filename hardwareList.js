@@ -2,6 +2,7 @@ const hardware_skus =
 [
     {sku: "CABLE-USB-EPSON", name: "Cable USB Epson"},
     {sku: "CAJON-ECLINE", name: "Cajón EcLine Elegance"},
+    {sku: "D4-504", name: "D4 504"},
     {sku: "EPSON-USB-RED", name: "Impresora Epson USB/Red"},
     {sku: "FALCON2", name: "Falcon 2"},
     {sku: "LECTOR-5300", name: "Lector de Huellas"},
