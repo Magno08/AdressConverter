@@ -90,9 +90,9 @@ input
 .skus-selected-output-container
 {
     display: block;
-    height: auto;
     padding: 10px;
     max-height: 200px;
+    max-width: 150px;
     overflow-y: auto;
 
     border: 1px solid #ccc;
@@ -122,24 +122,40 @@ input
 
 .format-box
 {
-    display: block;
-    width: 100%;
-    max-width: 500px;
-    min-width: 150px;
-    height: auto;
-
-
     border: 1px solid #ccc;
     border-radius: 4px;
     margin: 10px;
     padding: 5px;
-    width: 500px;
+    width: 650px;
     height: 80px;
-    border: 1px solid;
+
+    display: block;
+    width: 100%;
+    max-width: 700px;
+    min-width: 150px;
+    height: auto;
 
     word-wrap: break-word;
     overflow-wrap: break-word;
     white-space: pre-wrap;
+}
+
+.p-output-and-coppy-button
+{
+    margin: 10px;
+    padding: 5px;
+}
+
+.output-and-copy-button
+{
+    display: flex;
+    flex-direction: row;
+}
+
+/*Aplicamos el margen hacia la izquierda para el progreso de la conversión*/
+.progress-section
+{
+    text-align: end;
 }
 
 /* Hacer que el recuadro de escritura sea más alto y visible */
@@ -193,8 +209,11 @@ cuadro grande donde se pueda ver todo el HW en pedidos grandres*/
 
 .coppy-button
 {
-    justify-content: end;
+    width: 70px;
+    height: 35px;
     padding: 10px 10px;
+    margin: 40px;
+
     cursor: pointer;
     background-color: #444;
     color: white;
@@ -208,8 +227,4 @@ cuadro grande donde se pueda ver todo el HW en pedidos grandres*/
 
 /*Formato diferente del boton de agregar para evitar errore*/
 
-/*Aplicamos el margen hacia la izquierda para el progreso de la conversión*/
-.progress-section
-{
-    text-align: end;
-}
+
