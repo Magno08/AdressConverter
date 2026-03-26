@@ -1,3 +1,10 @@
+//Importamos las funciones derivadas de otras carpetas
+import { showStatus } from "./ui/status.js";
+import { parseAddress } from "./utils/divideAddress.js";
+import { hardwareSkus } from "./data/hardwareList.js";
+import { copyText } from "./utils/clipboard.js";
+import { getDate } from "./utils/getDate.js";
+
 //Verfificamos que el js este enlazado al html
 console.log("Sync complete");
 
@@ -35,9 +42,6 @@ const email = document.getElementById("email");
 const address = document.getElementById("address");
 const references = document.getElementById("references");
 
-//Variable para mostrar el estado de la converión, hacicendo que sea visible desde la página
-const progress_status = document.getElementById("convert-status");
-
 //Variable para guardar los SKUS
 const skus = [];
 //Agregamos un SKU a la lista si se ha hecho click
@@ -50,22 +54,21 @@ delete_sku.addEventListener("click", delete_only_skus);
 button.addEventListener("click", goToConvert);
 
 //Obtenemos la fecha actual, esto para completar el formato QUICK.
-const today = new Date();
+const today = getDate();
 console.log(today);
-const today_options = {day: '2-digit', month: '2-digit', year: 'numeric'};
-const today_is = new Intl.DateTimeFormat('en-GB', today_options).format(today);
-console.log(today_is);
 
 //Codigo para hacer el copiado de los elemetos al portapapeles
 //Detectamos que el boton de copiar haya hecho click
 copy_Aplin_Button.addEventListener("click",function() 
 {
-    copy_text(aplin_Form.textContent);
+    copyText(aplin_Form.textContent);
+    showStatus("Texto copiado correctamente");
 });
 
 copy_Quick_Button.addEventListener("click", function()
 {
-    copy_text(quick_Form.textContent);
+    copyText(quick_Form.textContent);
+    showStatus("Texto copiado correctamente");
 });
 
 //Limpiamos los inputs, y mostramos mensaje
@@ -107,13 +110,18 @@ function goToConvert()
         //Dividimos la direccion para encajarla con el formato APLIN
         const address_Divided = parseAddress(address.value);
         //Si falta algun dato, dejamos que el programa siga corriendo
-        if(!address_Divided) return;
+        if(!address_Divided) 
+        {
+            showStatus("El formato de la dirección debe ser: Calle, Colonia, Ciudad, Estado, CP");
+            console.log("Address fromat invalid: must be Address, Colonia, City, State, Zip");
+            return;
+        }
 
         //Tomamos el SKU generado
         //Primero validamos que haya al menos un elemento
         if (skus.length === 0)
         {
-            progress_status.textContent = "Debes agregar al menos 1 pieza de Hardware a Enviar"
+            showStatus("Debes agregar al menos 1 pieza de Hardware a Enviar");
             return;
         }
         //Si es asi, comenzamos a agregar el sku al formato
@@ -125,11 +133,11 @@ function goToConvert()
 
         //Generamos el formato para QUICK
         const text_finale_quick = 
-        `${today_is}, , ,${r_name_input},${f_name_input} ${l_name_input},${phone_input},${email_input},${address_input},${references_input}, , ,${sku_Quick_Format}`;
+        `${today}, , ,${r_name_input},${f_name_input} ${l_name_input},${phone_input},${email_input},${address_input},${references_input}, , ,${sku_Quick_Format}`;
         
         //Transformamos el formato para APLIN
-        input_name_sku = first_Sku.sku;
-        input_amount_sku = first_Sku.amount;
+        const input_name_sku = first_Sku.sku;
+        const input_amount_sku = first_Sku.amount;
         //Generamos el fromato para APLIN
         const text_finale_aplin = 
         `${f_name_input},${l_name_input},${email_input},${phone_input},${input_name_sku},${input_amount_sku},${f_name_input},${l_name_input},${phone_input},${r_name_input},${address_Divided.address_1},${address_Divided.address_2},${references_input},${address_Divided.city},${address_Divided.state},${address_Divided.cp}`;
@@ -138,7 +146,7 @@ function goToConvert()
         quick_Form.textContent = text_finale_quick;
         aplin_Form.textContent = text_finale_aplin;
 
-        progress_status.textContent = "Formatos generados correctamente";
+        showStatus("Formatos generados correctamente")
 
         //----------------------------------------------------------------------------------------
         //Esta seccion debe eliminarse cuando se agregue el colocar mas de 1 sku
@@ -151,53 +159,12 @@ function goToConvert()
     {
         //Si por alguna razón falta algún dato obligatorio, se indica y termina la ejecución
         console.log("Failed, some data is missing");
-        progress_status.textContent = "Error: falta algún dato obligatorio por completar";
+        showStatus("Falta algún dato obligatorio por completar")
     }
-}
-
-//Función para copiar el contenido al portapapeles
-function copy_text (full_format)
-{
-    //No debe copiar el contenido si aún no se genera el formato
-    if (!full_format || full_format ==="Aquí verás el formato completo antes de copiarlo")
-    {
-        console.log("No text aviable to copy");
-        progress_status.textContent = "Aún no hay nada para copiar";
-        return;
-    }
-    navigator.clipboard.writeText(full_format)
-        .then(() => 
-        {
-            console.log("Text copied successfully");
-            progress_status.textContent = "Texto copiado correctamente";
-        })
-        .catch(err =>
-        {
-            console.error("Copy failed:", err);
-        }
-        );
 }
 
 //Funcion para dividir la direccion
-function parseAddress (address)
-{
-    //Pedimos que lo divida por cada coma que encuentre
-    const parts = address.split(",").map(p => p.trim()).filter(p => p.length > 0);
-    //Si el formato no esta completo, lo indica y habra que revisar
-    if (parts.length !== 5)
-    {
-        console.log("Address fromat invalid: must be Address, Colonia, City, State, Zip");
-        progress_status.textContent = "Error: El formato de la direccción debe der: Calle, Colonia, Ciudad, Estado, CP";
-        return null;
-    }
-    return {
-        address_1: parts[0] || "",
-        address_2: parts[1] || "",
-        city: parts[2] || "",
-        state: parts[3] || "",
-        cp: parts[4] || ""
-    };
-}
+
 
 function show_delete()
 {
@@ -212,7 +179,7 @@ function show_delete()
     console.log("Forms clean");
 
     //Mensaje que muesta que todo se ha limpiado correctamente
-    progress_status.textContent = "Texto borrado corretamente";
+    showStatus("Texto Borrado correctamente");
     console.log("Clean process completed");
 }
 
@@ -248,7 +215,7 @@ function select_Hardware()
 
     //Con un for, agregamos todos los productos a la venta
     select.innerHTML = '';
-    hardware_skus.forEach(product =>
+    hardwareSkus.forEach(product =>
     {
         const option = document.createElement('option');
         option.value = product.sku;
@@ -271,7 +238,7 @@ function add_hardware()
     {
         //Si no hay cantidad, indica que debe haber alguna para continuar.
         console.log("There's no amount, please select an amount");
-        progress_status.textContent = "Error: Por favor, selecciona una cantidad a agregar de Hardware";
+        showStatus("Error: Por favor, selecciona una cantidad a agregar de Hardware")
         return null;
 
     } 
