@@ -59,16 +59,29 @@ console.log(today);
 
 //Codigo para hacer el copiado de los elemetos al portapapeles
 //Detectamos que el boton de copiar haya hecho click
-copy_Aplin_Button.addEventListener("click",function() 
+copy_Aplin_Button.addEventListener("click", async function() 
 {
-    copyText(aplin_Form.textContent);
-    showStatus("Texto copiado correctamente");
+    const copySuccess = await copyText(aplin_Form.textContent);
+    if (copySuccess)
+    {
+        showStatus("Texto copiado correctamente");
+    } else
+    {
+        showStatus("Aún no hay nada para copiar");
+    }
+    
 });
 
-copy_Quick_Button.addEventListener("click", function()
+copy_Quick_Button.addEventListener("click", async function()
 {
-    copyText(quick_Form.textContent);
-    showStatus("Texto copiado correctamente");
+        const copySuccess = await copyText(quick_Form.textContent);
+    if (copySuccess)
+    {
+        showStatus("Texto copiado correctamente");
+    } else
+    {
+        showStatus("Aún no hay nada para copiar");
+    }
 });
 
 //Limpiamos los inputs, y mostramos mensaje
