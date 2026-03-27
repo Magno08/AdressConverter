@@ -222,9 +222,30 @@ cuadro grande donde se pueda ver todo el HW en pedidos grandres*/
     font-weight: bold;
 }
 
+/* Espacio para generar el toast */
+.toast
+{
+    display: block;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s ease;
+    z-index: 9999;
 
+    padding: 5px;
+    background: #444;
+    color: white;
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    border: 1px;
+    border-radius: 5px;
+}
 
-
-/*Formato diferente del boton de agregar para evitar errore*/
-
-
+.toast.show
+{
+    visibility: visible;
+    display: block;
+    transform: translateY(0);
+    opacity: 1;
+}

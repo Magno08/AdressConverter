@@ -251,7 +251,7 @@ function add_hardware()
     {
         //Si no hay cantidad, indica que debe haber alguna para continuar.
         console.log("There's no amount, please select an amount");
-        showStatus("Error: Por favor, selecciona una cantidad a agregar de Hardware")
+        showStatus("Selecciona una cantidad a agregar de Hardware")
         return null;
 
     } 
