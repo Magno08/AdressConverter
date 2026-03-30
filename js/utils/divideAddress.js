@@ -1,9 +1,8 @@
 import { mexicoStates } from "../data/states.js"; 
 
-//**
-// Divide una direcccion en partes si sigue el fromato
-// Calle, colonia, Ciudad, Estado */
-
+/**
+ * Divide una direcccion en partes si sigue el fromato Calle, colonia, Ciudad, Estado
+ */
 export function parseAddress (address)
 {
     //Pedimos que lo divida por cada coma que encuentre

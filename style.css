@@ -232,7 +232,7 @@ cuadro grande donde se pueda ver todo el HW en pedidos grandres*/
     transition: all 0.4s ease;
     z-index: 9999;
 
-    padding: 5px;
+    padding: 15px;
     background: #444;
     color: white;
     position: fixed;

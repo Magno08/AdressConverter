@@ -1,9 +1,9 @@
 //Importamos las funciones derivadas de otras carpetas
 import { showStatus } from "./ui/status.js";
 import { parseAddress } from "./utils/divideAddress.js";
-import { hardwareSkus } from "./data/hardwareList.js";
 import { copyText } from "./utils/clipboard.js";
 import { getDate } from "./utils/getDate.js";
+import { putHardwareOnList, addHardware } from "./ui/hardwareManagement.js";
 
 //Verfificamos que el js este enlazado al html
 console.log("Sync complete");
@@ -45,7 +45,17 @@ const references = document.getElementById("references");
 //Variable para guardar los SKUS
 const skus = [];
 //Agregamos un SKU a la lista si se ha hecho click
+
 add_sku.addEventListener("click", add_hardware);
+
+/*
+add_sku.addEventListener("click", function()
+{
+    const hardwareSelected = document.getElementById("sku-select");
+    const amountSelected = document.getElementById("sku-amount");
+    addHardware(hardwareSelected,amountSelected);
+});
+*/
 
 //Si queremos solamente eliminar los skus, el boton de eliminar skus nos ayuda con eso
 delete_sku.addEventListener("click", delete_only_skus);
@@ -159,7 +169,7 @@ function goToConvert()
         quick_Form.textContent = text_finale_quick;
         aplin_Form.textContent = text_finale_aplin;
 
-        showStatus("Formatos generados correctamente")
+        showStatus("Formatos generados correctamente");
 
         //----------------------------------------------------------------------------------------
         //Esta seccion debe eliminarse cuando se agregue el colocar mas de 1 sku
@@ -221,25 +231,13 @@ function input_no_wrote() {
     });
 }
 
-//Usamos una función para llenar el listado con todos los SKUs
-function select_Hardware()
-{
-    const select = document.getElementById("sku-select");
 
-    //Con un for, agregamos todos los productos a la venta
-    select.innerHTML = '';
-    hardwareSkus.forEach(product =>
-    {
-        const option = document.createElement('option');
-        option.value = product.sku;
-        option.textContent = product.name;
-        select.appendChild(option);
-    }
-    );
-}
+//Usamos una función para llenar el listado con todos los SKUs
+putHardwareOnList();
 
 function add_hardware()
 {
+    console.log(skus);
 
     //Leemos el Harware que se va a agregar al pedido
     const hw = document.getElementById("sku-select");
@@ -269,6 +267,7 @@ function add_hardware()
             skus_added.innerHTML += `${item.sku} - ${item.amount}<br>`;
         });
         console.log("Si ves esto, entonces el boton debio agregar el valor del select al outuput");
+
         amount.value = "";
         //Como primera version, hacemos que el usuario genere por cada SKU
     }
@@ -283,4 +282,4 @@ function delete_only_skus()
 
 //Lista de funciones a ejecutar cuando se carga el script
 input_no_wrote();
-select_Hardware();
+//select_Hardware();
