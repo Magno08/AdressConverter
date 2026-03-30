@@ -128,6 +128,15 @@ function dividFullName ()
                 fName = `${nameParts[0]} ${nameParts[1]}`;
                 lName = `${nameParts[2]} ${nameParts[3]} ${nameParts.at(-1)}`;
                 break;
+            //El mas extraño de los casos, nombre con conectores y apellido con dos conectores
+            case 6:
+                fName = `${nameParts[0]} ${nameParts[1]} ${nameParts[2]}`;
+                lName = `${nameParts[3]} ${nameParts[4]} ${nameParts[5]}`;
+                break;
+            //Ya en otro caso, o el nombre es muy largo y extenso, o se escrbio los dos apellidos,
+            // o simplemente es mejor escribirlo separado
+            default:
+                alert("Sorry, Name too dificult to divide");
     }
 
     console.log("The First name is: " + fName +
