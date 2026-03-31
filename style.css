@@ -42,6 +42,13 @@ en caso de que no se escriba nada*/
     transition: 0.3s ease;
 }
 
+.input-text
+{
+    border:  1px solid green;
+    background-color: rgb(227, 253, 208);
+    transition: 0.3s ease;
+}
+
 input
 {
     transition: border 0.3s ease;
@@ -166,10 +173,8 @@ input[type="text"], input[type="tel"], input[type="email"], input[type="number"]
     border-radius: 4px;
 }
 
-/*Adaptamos el output del Hardware seleccionado para que sea un
-cuadro grande donde se pueda ver todo el HW en pedidos grandres*/
 
-
+/* Espacio para los estilos de los botones*/
 /*Modificamos el boton de agregar*/
 .add-sku-button-container
 {

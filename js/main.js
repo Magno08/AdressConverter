@@ -3,7 +3,8 @@ import { showStatus } from "./ui/status.js";
 import { parseAddress } from "./utils/divideAddress.js";
 import { copyText } from "./utils/clipboard.js";
 import { getDate } from "./utils/getDate.js";
-import { putHardwareOnList, addHardware } from "./ui/hardwareManagement.js";
+import { putHardwareOnList } from "./ui/hardwareManagement.js";
+import { whenUserDontWrite, inputHasText } from "./ui/inputVisualControl.js";
 
 //Verfificamos que el js este enlazado al html
 console.log("Sync complete");
@@ -42,20 +43,10 @@ const email = document.getElementById("email");
 const address = document.getElementById("address");
 const references = document.getElementById("references");
 
-//Variable para guardar los SKUS
-const skus = [];
 //Agregamos un SKU a la lista si se ha hecho click
-
+const skus = [];
 add_sku.addEventListener("click", add_hardware);
 
-/*
-add_sku.addEventListener("click", function()
-{
-    const hardwareSelected = document.getElementById("sku-select");
-    const amountSelected = document.getElementById("sku-amount");
-    addHardware(hardwareSelected,amountSelected);
-});
-*/
 
 //Si queremos solamente eliminar los skus, el boton de eliminar skus nos ayuda con eso
 delete_sku.addEventListener("click", delete_only_skus);
@@ -205,33 +196,6 @@ function show_delete()
     showStatus("Texto Borrado correctamente");
     console.log("Clean process completed");
 }
-
-//Hacemos una función que pondrá los inputs que no están llenos en color rojo
-function input_no_wrote() {
-    // Seleccionamos los inputs que son obligatorios
-    const required_inputs = document.querySelectorAll('input[required]');
-
-    required_inputs.forEach(input => {
-        // Generamos un blur para identificar cuando el usuario sale del input
-        input.addEventListener('blur', () => {
-            // Si el valor es vacío o solo espacios, agregamos el error
-            if (input.value.trim() === "") {
-                input.classList.add('input-error');
-            } else {
-                input.classList.remove('input-error');
-            }
-        });
-
-        // También se elimina el fondo cuando comience a escribir algo válido
-        input.addEventListener('input', () => {
-            if (input.value.trim() !== "") {
-                input.classList.remove('input-error');
-            }
-        });
-    });
-}
-
-
 //Usamos una función para llenar el listado con todos los SKUs
 putHardwareOnList();
 
@@ -280,6 +244,7 @@ function delete_only_skus()
     console.log("Array clean");
 }
 
-//Lista de funciones a ejecutar cuando se carga el script
-input_no_wrote();
-//select_Hardware();
+//Lista de funciones que controlan partes visuales del HTML
+whenUserDontWrite();
+inputHasText();
+
