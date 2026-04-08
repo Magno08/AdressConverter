@@ -7,35 +7,35 @@ export function  whenUserDontWrite()
     requiredInputs.forEach(input => {
     // Generamos un blur para identificar cuando el usuario sale del input
     input.addEventListener('blur', () => {
-        // Si el valor es vacío o solo espacios, agregamos el error
-        if (input.value.trim() === "") {
+        // Primero, limpiamos cualaquier estado anteriormente hecho
+        input.classList.remove('input-text');
+        input.classList.remove('input-error');
+
+        //Verificamos si hay algun caracter en los inputs
+        if (input.value.trim() === "")
+        {
             input.classList.add('input-error');
-        } else {
-            input.classList.remove('input-error');
+        }
+        else
+        {
+            input.classList.add('input-text');
         }
     });
     });
 }
 
 /**
- * Genera un contorno verde cuando los inputs contienen al menos un carácter
+ * Cuando el boton de borrar hace click, elimina cualquier cambio de color de los inputs
  */
-export function inputHasText()
+export function cleanStyleForms()
 {
-    let inputsWithText = document.querySelectorAll('input');
-    inputsWithText.forEach(input =>
-    {
-        input.addEventListener('blur', () =>
-        {
-            if (input.value.trim() !== "")
-            {
-                input.classList.add('input-text');
-            }
-            else
-            {
+    let form = document.getElementById('converter-form');
+    let input = document.querySelectorAll('input');
+
+    form.addEventListener('reset', () =>{
+        input.forEach(input =>{
+            input.classList.remove('input-error');
             input.classList.remove('input-text');
-            }
         });
-    }
-    );
+    });
 }

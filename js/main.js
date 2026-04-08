@@ -4,7 +4,7 @@ import { parseAddress } from "./utils/divideAddress.js";
 import { copyText } from "./utils/clipboard.js";
 import { getDate } from "./utils/getDate.js";
 import { putHardwareOnList } from "./ui/hardwareManagement.js";
-import { whenUserDontWrite, inputHasText } from "./ui/inputVisualControl.js";
+import { whenUserDontWrite, cleanStyleForms } from "./ui/inputVisualControl.js";
 
 //Verfificamos que el js este enlazado al html
 console.log("Sync complete");
@@ -177,9 +177,6 @@ function goToConvert()
     }
 }
 
-//Funcion para dividir la direccion
-
-
 function show_delete()
 {
     //Eliminamos los elementos dentro del array de los skus
@@ -192,10 +189,14 @@ function show_delete()
     quick_Form.textContent = "Aquí verás el formato completo antes de copiarlo";
     console.log("Forms clean");
 
+    //Eliminamos el estilo visual de los inputs
+    cleanStyleForms();
+
     //Mensaje que muesta que todo se ha limpiado correctamente
     showStatus("Texto Borrado correctamente");
     console.log("Clean process completed");
 }
+
 //Usamos una función para llenar el listado con todos los SKUs
 putHardwareOnList();
 
@@ -246,5 +247,4 @@ function delete_only_skus()
 
 //Lista de funciones que controlan partes visuales del HTML
 whenUserDontWrite();
-inputHasText();
 
