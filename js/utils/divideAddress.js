@@ -49,6 +49,5 @@ export function parseAddress (address)
     parsed.address_2 = parts[0];
     parsed.city = parts[1];
     console. log(parsed);
-    //El return es temporal, para no romper el programa
     return parsed;
 }
