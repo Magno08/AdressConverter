@@ -13,4 +13,4 @@ export const hardwareSkus =
     {sku: "SWAN2-PRINTER", name: "SWAN 2 con impresora"},
     {sku: "SWAN-KDS", name: "SWAN KDS"},
     {sku: "TABLET-SAMSUNG", name: "Tablet Samsung Galaxy"},
-];
+].sort((a,b) => a.name.localeCompare(b.name));
