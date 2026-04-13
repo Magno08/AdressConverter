@@ -1,4 +1,34 @@
 import { mexicoStates } from "../data/states.js"; 
+import { getDate } from "./getDate.js";
+
+/**
+ * Genera el formato QUICK para pegado
+ */
+export function generateQuickFormat (skuList, clientData, today)
+{
+    const skuQuick = [];
+    //Con un array, agregamos cada elemento de los skus seleccionados
+    skuList.forEach(item=> {
+        skuQuick.push(`${item.amount}-${item.sku}`);
+        console.log(skuQuick);
+    });
+    //Finalmente, agregamos el formato para Quick
+    const quickText = 
+    `${today}\t \t \t${clientData.restaurantName}\t${clientData.fullName}\t${clientData.phoneNumber}\t${clientData.mail}\t${clientData.address}\t${clientData.ref}\t \t \t${skuQuick.join(",")}`;
+    return quickText;
+}
+
+/**
+ * Genera el formato APLIN para pegado
+ */
+export function generateAplinFormat(skuList, clientData)
+{
+    const aplinText = skuList.map(item =>
+    {
+        return `${clientData.firstName}\t${clientData.lastName}\t${clientData.mail}\t${clientData.phoneNumber}\t${item.sku}\t${item.amount}\t${clientData.firstName}\t${clientData.lastName}\t${clientData.phoneNumber}\t${clientData.restaurantName}\t${clientData.address.address_1}\t${clientData.address.address_2}\t${clientData.ref}\t${clientData.address.city}\t${clientData.address.state}\t${clientData.address.cp}`;
+    });
+    return aplinText.join("\n");
+}
 
 /**
  * Divide una direcccion en partes si sigue el fromato Calle, colonia, Ciudad, Estado
@@ -48,6 +78,5 @@ export function parseAddress (address)
     //Se va a sumir que el la clonia y la ciudad aparecen en ese orden, entonces rellenamos los espacios vacíos
     parsed.address_2 = parts[0];
     parsed.city = parts[1];
-    console. log(parsed);
     return parsed;
 }

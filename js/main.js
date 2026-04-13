@@ -1,6 +1,6 @@
 //Importamos las funciones derivadas de otras carpetas
 import { showStatus } from "./ui/status.js";
-import { parseAddress } from "./utils/divideAddress.js";
+import { generateAplinFormat, generateQuickFormat, parseAddress } from "./utils/convertionManagement.js";
 import { copyText } from "./utils/clipboard.js";
 import { getDate } from "./utils/getDate.js";
 import { putHardwareOnList } from "./ui/hardwareManagement.js";
@@ -9,7 +9,7 @@ import { whenUserDontWrite, cleanStyleForms } from "./ui/inputVisualControl.js";
 //Verfificamos que el js este enlazado al html
 console.log("Sync complete");
 
-//Generacion de variables
+//-------------------------Generacion de variables----------------------------------------------
 //generamos constante donde leera si se ha hecho click en el boton
 const button = document.getElementById("generate-Button");
 
@@ -45,6 +45,10 @@ const references = document.getElementById("references");
 
 //Agregamos un SKU a la lista si se ha hecho click
 const skus = [];
+
+//-------------------------Click EventListener----------------------------------------------
+
+//Boton de agregar hardware, si hace click, agrega el SKU a la lista
 add_sku.addEventListener("click", add_hardware);
 
 
@@ -56,7 +60,6 @@ button.addEventListener("click", goToConvert);
 
 //Obtenemos la fecha actual, esto para completar el formato QUICK.
 const today = getDate();
-console.log(today);
 
 //Codigo para hacer el copiado de los elemetos al portapapeles
 //Detectamos que el boton de copiar haya hecho click
@@ -88,6 +91,7 @@ copy_Quick_Button.addEventListener("click", async function()
 //Limpiamos los inputs, y mostramos mensaje
 delete_button.addEventListener("click", show_delete);
 
+//-------------------------Funcion Main----------------------------------------------
 function goToConvert() 
 {
     console.log("Start Process:");
@@ -103,23 +107,27 @@ function goToConvert()
     ) 
     {
         console.log("Data collected correctly");
+        
+        const dataQuick =
+        {
+            restaurantName: r_name.value.trim(),
+            fullName: f_name.value.trim() + " " + l_name.value.trim(),
+            phoneNumber: phone.value.trim(),
+            mail: email.value.trim(),
+            address: address.value.trim(),
+            ref: references.value.trim()            
+        };
 
-        const r_name_input = r_name.value.trim();
-        const f_name_input = f_name.value.trim();
-        const l_name_input = l_name.value.trim();
-        const phone_input = phone.value.trim();
-        const email_input = email.value.trim();
-
-        //Eliminamos las comas en las referecnias para evitar malos pegados
-        const references_input = references.value
-        .trim()
-        .replace(/,/g, "");
-
-        //Quitamos las comas en la direccion para evitar malos pegados en google sheets
-        const address_input = address.value
-        .trim()
-        .replace(/,/g, " ")
-        .replace(/\s+/g, "  ");
+        const dataAplin =
+        {
+            restaurantName: r_name.value.trim(),
+            firstName: f_name.value.trim(),
+            lastName: l_name.value.trim(),
+            phoneNumber: phone.value.trim(),
+            address: parseAddress(address.value),
+            mail: email.value.trim(),
+            ref: references.value.trim()
+        };
 
         //Dividimos la direccion para encajarla con el formato APLIN
         const address_Divided = parseAddress(address.value);
@@ -137,37 +145,15 @@ function goToConvert()
         {
             showStatus("Debes agregar al menos 1 pieza de Hardware a Enviar");
             return;
-        }
+        } 
         //Si es asi, comenzamos a agregar el sku al formato
-        //De momento, solamente agregamos un solo sku
-        const first_Sku = skus[0];
-        //Ahora transfromamos al formato QUICK el pedido del Hardware
-        const sku_Quick_Format = 
-        `${first_Sku.amount}-${first_Sku.sku}`;
+        const textFinaleQuick = generateQuickFormat(skus, dataQuick,today);
+        quick_Form.textContent = textFinaleQuick;
 
-        //Generamos el formato para QUICK
-        const text_finale_quick = 
-        `${today}, , ,${r_name_input},${f_name_input} ${l_name_input},${phone_input},${email_input},${address_input},${references_input}, , ,${sku_Quick_Format}`;
-        
-        //Transformamos el formato para APLIN
-        const input_name_sku = first_Sku.sku;
-        const input_amount_sku = first_Sku.amount;
-        //Generamos el fromato para APLIN
-        const text_finale_aplin = 
-        `${f_name_input},${l_name_input},${email_input},${phone_input},${input_name_sku},${input_amount_sku},${f_name_input},${l_name_input},${phone_input},${r_name_input},${address_Divided.address_1},${address_Divided.address_2},${references_input},${address_Divided.city},${address_Divided.state},${address_Divided.cp}`;
-
-        //Sustituímos la salida del Output con la dirección en el formato que se desee
-        quick_Form.textContent = text_finale_quick;
-        aplin_Form.textContent = text_finale_aplin;
+        const textFinaleAplin = generateAplinFormat(skus,dataAplin);
+        aplin_Form.textContent = textFinaleAplin;
 
         showStatus("Formatos generados correctamente");
-
-        //----------------------------------------------------------------------------------------
-        //Esta seccion debe eliminarse cuando se agregue el colocar mas de 1 sku
-        skus.length = 0;
-        skus_added.textContent = "SKU agregado al formato";
-        //----------------------------------------------------------------------------------------
-
     } 
     else 
     {
@@ -248,3 +234,22 @@ function delete_only_skus()
 //Lista de funciones que controlan partes visuales del HTML
 whenUserDontWrite();
 
+//Debbuging
+
+const DEV_MODE = false;
+
+function fillData()
+{
+    document.getElementById("Restaurant-Name").value = "Parrot Cafe";
+    document.getElementById("full-name").value = "Omar";
+    document.getElementById("last-name").value = "Magno";
+    document.getElementById("phone-number").value = "55 39 24 29 00";
+    document.getElementById("email").value = "omar@parrotsoftware.io";
+    document.getElementById("address").value = "Londres 253,Juarez,Cuauthemoc,CDMX,06000";
+    document.getElementById("references").value = "Al lado del oxxo";
+}
+
+if(DEV_MODE)
+{
+    fillData();
+}
