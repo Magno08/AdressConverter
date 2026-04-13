@@ -21,6 +21,7 @@ export function generateQuickFormat (skuList, clientData, today)
  */
 export function generateAplinFormat(skuList, clientData)
 {
+    //Guardamos todas las solicitudes en un array, para que al pegarlo se haca en cada fila
     const aplinText = skuList.map(item =>
     {
         return `${clientData.firstName}\t${clientData.lastName}\t${clientData.mail}\t${clientData.phoneNumber}\t${item.sku}\t${item.amount}\t${clientData.firstName}\t${clientData.lastName}\t${clientData.phoneNumber}\t${clientData.restaurantName}\t${clientData.address.address_1}\t${clientData.address.address_2}\t${clientData.ref}\t${clientData.address.city}\t${clientData.address.state}\t${clientData.address.cp}`;
