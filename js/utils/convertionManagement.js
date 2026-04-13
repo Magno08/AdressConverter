@@ -1,5 +1,4 @@
 import { mexicoStates } from "../data/states.js"; 
-import { getDate } from "./getDate.js";
 
 /**
  * Genera el formato QUICK para pegado
@@ -10,7 +9,6 @@ export function generateQuickFormat (skuList, clientData, today)
     //Con un array, agregamos cada elemento de los skus seleccionados
     skuList.forEach(item=> {
         skuQuick.push(`${item.amount}-${item.sku}`);
-        console.log(skuQuick);
     });
     //Finalmente, agregamos el formato para Quick
     const quickText = 
